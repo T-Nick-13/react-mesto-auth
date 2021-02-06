@@ -1,0 +1,39 @@
+@import url(./__logo/header__logo.css);
+
+.header {
+  width: 69vw;
+  padding-top: 45px;
+  max-width: 882px;
+}
+
+.header:after {
+  opacity: 0.7;
+  border-bottom: 1px solid#545454;
+  width: 69vw;
+  max-width: 882px;
+  display: block;
+  content: ' ';
+}
+
+@media (max-width: 1279px) {
+  .header {
+    width: 90vw;
+  }
+
+  .header:after {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding-top: 28px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .header:after {
+    width: 100%;
+    max-width: 100%;
+  }
+}
