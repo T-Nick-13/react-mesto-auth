@@ -29,13 +29,13 @@ function Login({handleLogin}) {
 
   return(
     <>
-      <Header headerRoute="/signin" headerLink="Регистрация" />
+      <Header headerRoute="/sign-up" headerLink="Регистрация" />
 
       <div className="auth">
         <p className="auth__heading">Вход</p>
 
         <form onSubmit={handleSubmit} className="auth__form">
-          <input id="username" className="auth__input" required name="username" type="text"
+          <input id="username" className="auth__input" required name="username" type="email"
             value={data.username} onChange={handleChange} placeholder="Email" />
           <input id="password" className="auth__input" required name="password" type="password"
             value={data.password} onChange={handleChange} placeholder="Пароль" />

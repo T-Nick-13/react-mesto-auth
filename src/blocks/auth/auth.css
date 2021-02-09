@@ -2,6 +2,8 @@
 @import url(./__btn/auth__btn.css);
 @import url(./__form/auth__form.css);
 @import url(./__input/auth__input.css);
+@import url(./__link/auth__link.css);
+@import url(./__text/auth__text.css);
 
 .auth {
   width: 358px;

@@ -9,7 +9,7 @@ function Main(props) {
 
   return (
     <>
-      <Header headerRoute="/signin" headerLink="Выйти" >
+      <Header headerRoute="/sign-in" headerLink="Выйти" >
         <p className="header__user">Test@user.com</p>
       </Header>
       <main>

@@ -218,6 +218,9 @@ function App() {
         <Route path="/sign-in">
           <Login handleLogin={handleLogin} />
         </Route>
+        <Route path="/sign-up">
+          <Register onRegister={handleRegister} />
+        </Route>
         <ProtectedRoute
           path="/"
           loggedIn={loggedIn}
@@ -243,9 +246,7 @@ function App() {
           }
         />
 
-        <Route path="/sign-up">
-          <Register onRegister={handleRegister} />
-        </Route>
+
        <Route path="/">
           {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
        </Route>

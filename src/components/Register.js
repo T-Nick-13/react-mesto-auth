@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import logoPath from '../images/logo.svg';
-import { withRouter, useHistory } from 'react-router-dom';
+import Header from './Header.js';
+import { useHistory, Link } from 'react-router-dom';
 
 function Register({onRegister}) {
 
@@ -30,24 +30,25 @@ function Register({onRegister}) {
 
 
   return(
-    <div className="login">
-      <div className="login__header">
-        <img className="login__logo" src={logoPath} alt="Лого Mesto"/>
-        <p className="login__nav">Регистрация</p>
+    <>
+      <Header headerRoute="/sign-in" headerLink="Войти" />
+
+      <div className="auth">
+        <p className="auth__heading">Регистрация</p>
+
+        <form onSubmit={handleSubmit} className="auth__form">
+          <input id="username" className="auth__input" required name="username" type="email"
+            value={data.username} onChange={handleChange} placeholder="Email" />
+          <input id="password" className="auth__input" required name="password" type="password"
+            value={data.password} onChange={handleChange} placeholder="Пароль" />
+          <button type="submit" className="auth__btn">Зарегистрироваться</button>
+          <p className="auth__text">Уже зарегистрированы?&nbsp;
+            <Link to="/sign-in" className="auth__link">Войти</Link>
+          </p>
+        </form>
       </div>
 
-      <p className="login__welcome">Вход</p>
-
-      <form onSubmit={handleSubmit} className="login__form">
-        <input id="username" required name="username" type="text" value={data.username} onChange={handleChange} />
-        <input id="password" required name="password" type="password" value={data.password} onChange={handleChange} />
-          <div className="login__button-container">
-            <button type="submit" className="login__link">Войти</button>
-          </div>
-      </form>
-
-
-    </div>
+    </>
   )
 }
 
