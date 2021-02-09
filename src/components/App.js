@@ -1,7 +1,6 @@
 import React from 'react';
-import Header from './Header.js';
+import { Route, Switch, Redirect, useHistory, withRouter } from 'react-router-dom';
 import Main from './Main.js';
-import Footer from './Footer.js';
 import ImagePopup from './ImagePopup.js';
 import api from '../utils/api.js';
 import Card from './Card.js';
@@ -9,6 +8,10 @@ import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ConfirmationPopup from './ConfirmationPopup.js';
+import Login from './Login.js';
+import Register from './Register.js';
+import ProtectedRoute from './ProtectedRoute.js';
+import * as auth from '../utils/auth.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function App() {
@@ -21,6 +24,24 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState('');
   const [loading, setLoading] = React.useState('Сохранить');
   const [loadingPlace, setLoadingPlace] = React.useState('Создать');
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState({
+    username: '',
+    email: ''
+  });
+
+  const history = useHistory();
+
+/*   React.useEffect(() => {
+    tokenCheck();
+  }, []) */
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      history.push('/');
+    }
+  }, [loggedIn])
 
 
   React.useEffect(() => {
@@ -140,62 +161,149 @@ function App() {
         })
   }
 
+  function handleLogin(data) {
+    const {username, password} = data;
+    return auth.authorize(username, password)
+      .then((res) => {
+        if (!res || res.statusCode === 400) {
+          throw new Error ('Проблема с регистрацией')
+        }
+        if (res.jwt) {
+          setLoggedIn(true);
+          localStorage.setItem('jwt', res.jwt);
+        }
+      })
+      .catch((err) => console.log(err))
+  }
+
+  function handleRegister(data) {
+    const {email, password} = data;
+    return auth.register(email, password)
+      .then((res) => {
+        if (!res || res.statusCode === 400) {
+          throw new Error ('Проблема с регистрацией')
+        }
+        return res;
+      })
+      .catch((err) => {console.log(err)})
+  }
+
+/*   function tokenCheck() {
+    if (localStorage.getItem('jwt')) {
+      let jwt = localStorage.getItem('jwt');
+      auth.getContent(jwt)
+       /* .then((res) => {
+          if (res) {
+            let userData = {
+              username: res.username,//??
+              email: res.email
+            }
+            setState({
+              loggedIn: true,
+              userData
+            }, (props) => {
+              props.history.push('/');
+            })
+          }
+        })
+    }
+  } */
+
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
-      <Header/>
+      <CurrentUserContext.Provider value={currentUser}>
 
-      <Main
-        onEditProfile={handleEditProfileClick}
-        onEditAvatar={handleEditAvatarClick}
-        onAddPlace={handleAddPlaceClick}
-        userAvatar={currentUser.avatar}
-        name={currentUser.name}
-        about={currentUser.about}
-        cards={
-          cards.map((card)=>{
-            return (
-              <Card
-                key={card._id}
-                card={card}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-              />
-            )
-          })
-        } />
+      <Switch>
+        <Route path="/sign-in">
+          <Login handleLogin={handleLogin} />
+        </Route>
+        <ProtectedRoute
+          path="/"
+          loggedIn={loggedIn}
+          component={Main}
+          onEditProfile={handleEditProfileClick}
+          onEditAvatar={handleEditAvatarClick}
+          onAddPlace={handleAddPlaceClick}
+          userAvatar={currentUser.avatar}
+          name={currentUser.name}
+          about={currentUser.about}
+          cards={
+            cards.map((card)=>{
+              return (
+                <Card
+                  key={card._id}
+                  card={card}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />
+              )
+            })
+          }
+        />
 
-      <Footer/>
+        <Route path="/sign-up">
+          <Register onRegister={handleRegister} />
+        </Route>
+       <Route path="/">
+          {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+       </Route>
+{/*         <Route path="/">
+        <Main
+          onEditProfile={handleEditProfileClick}
+          onEditAvatar={handleEditAvatarClick}
+          onAddPlace={handleAddPlaceClick}
+          userAvatar={currentUser.avatar}
+          name={currentUser.name}
+          about={currentUser.about}
+          cards={
+            cards.map((card)=>{
+              return (
+                <Card
+                  key={card._id}
+                  card={card}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />
+              )
+            })
+          } />
 
-      <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser}
-        btnValue={loading} />
+        <Footer/>
+        </Route> */}
+      </Switch>
 
-      <AddPlacePopup
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-        onAddPlace={handleAddPlaceSubmit}
-        btnValue={loadingPlace} />
 
-      <ImagePopup
-        card={selectedCard}
-        onClose={closeAllPopups} />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+          btnValue={loading} />
 
-      <ConfirmationPopup />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+          btnValue={loadingPlace} />
 
-      <EditAvatarPopup
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-        onUpdateAvatar={handleUpdateAvatar}
-        btnValue={loading} />
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups} />
 
+        <ConfirmationPopup />
+
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+          btnValue={loading} />
+
+      </CurrentUserContext.Provider>
     </div>
-    </CurrentUserContext.Provider>
+
   );
 }
 
-export default App
+export default withRouter(App);
