@@ -26,10 +26,10 @@ function App() {
   const [loadingPlace, setLoadingPlace] = React.useState('Создать');
 
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userData, setUserData] = React.useState({
+/*   const [userData, setUserData] = React.useState({
     username: '',
     email: ''
-  });
+  }); */
 
   const history = useHistory();
 
@@ -183,9 +183,11 @@ function App() {
         if (!res || res.statusCode === 400) {
           throw new Error ('Проблема с регистрацией')
         }
-        return res;
+        if (res.jwt) {
+          setLoggedIn(true);
+          localStorage.setItem('jwt', res.jwt);
+        }
       })
-      .catch((err) => {console.log(err)})
   }
 
 /*   function tokenCheck() {

@@ -21,11 +21,12 @@ function Register({onRegister}) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    //const { email, password } = data;
     onRegister(data)
       .then(() => {
         history.push('/sign-in')
       })
-      .catch(() => {});
+      .catch((err) => {console.log(err)});
   }
 
 
@@ -37,7 +38,7 @@ function Register({onRegister}) {
         <p className="auth__heading">Регистрация</p>
 
         <form onSubmit={handleSubmit} className="auth__form">
-          <input id="username" className="auth__input" required name="username" type="email"
+          <input id="username" className="auth__input" required name="email" type="email"
             value={data.username} onChange={handleChange} placeholder="Email" />
           <input id="password" className="auth__input" required name="password" type="password"
             value={data.password} onChange={handleChange} placeholder="Пароль" />
