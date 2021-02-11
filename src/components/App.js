@@ -26,16 +26,16 @@ function App() {
   const [loadingPlace, setLoadingPlace] = React.useState('Создать');
 
   const [loggedIn, setLoggedIn] = React.useState(false);
-/*   const [userData, setUserData] = React.useState({
+  const [userData, setUserData] = React.useState({
     username: '',
     email: ''
-  }); */
+  });
 
   const history = useHistory();
 
-/*   React.useEffect(() => {
+  React.useEffect(() => {
     tokenCheck();
-  }, []) */
+  }, [])
 
   React.useEffect(() => {
     if (loggedIn) {
@@ -162,55 +162,45 @@ function App() {
   }
 
   function handleLogin(data) {
-    const {username, password} = data;
-    return auth.authorize(username, password)
+    const {email, password} = data;
+    debugger
+    auth.authorize(email, password)
       .then((res) => {
-        if (!res || res.statusCode === 400) {
-          throw new Error ('Проблема с регистрацией')
-        }
-        if (res.jwt) {
+        if (res) {
           setLoggedIn(true);
-          localStorage.setItem('jwt', res.jwt);
+          localStorage.setItem('jwt', res.token);
+          history.push("/");
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {console.log(err)})
   }
 
   function handleRegister(data) {
     const {email, password} = data;
-    return auth.register(email, password)
+    auth.register(email, password)
       .then((res) => {
-        if (!res || res.statusCode === 400) {
-          throw new Error ('Проблема с регистрацией')
+        if (res) {
+          history.push('/')
         }
-        if (res.jwt) {
-          setLoggedIn(true);
-          localStorage.setItem('jwt', res.jwt);
-        }
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }
 
-/*   function tokenCheck() {
+  function tokenCheck() {
     if (localStorage.getItem('jwt')) {
-      let jwt = localStorage.getItem('jwt');
+      const jwt = localStorage.getItem('jwt');
       auth.getContent(jwt)
-       /* .then((res) => {
+       .then((res) => {
           if (res) {
-            let userData = {
-              username: res.username,//??
-              email: res.email
-            }
-            setState({
-              loggedIn: true,
-              userData
-            }, (props) => {
-              props.history.push('/');
-            })
+            setLoggedIn(true);
+            history.push("/");
           }
         })
+        .catch((err) => {console.log(err)});
     }
-  } */
-
+  }
 
   return (
     <div className="page">
@@ -252,30 +242,6 @@ function App() {
        <Route path="/">
           {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
        </Route>
-{/*         <Route path="/">
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onEditAvatar={handleEditAvatarClick}
-          onAddPlace={handleAddPlaceClick}
-          userAvatar={currentUser.avatar}
-          name={currentUser.name}
-          about={currentUser.about}
-          cards={
-            cards.map((card)=>{
-              return (
-                <Card
-                  key={card._id}
-                  card={card}
-                  onCardClick={handleCardClick}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                />
-              )
-            })
-          } />
-
-        <Footer/>
-        </Route> */}
       </Switch>
 
 

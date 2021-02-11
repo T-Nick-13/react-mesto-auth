@@ -5,7 +5,7 @@ import Header from './Header.js';
 function Login({handleLogin}) {
 
   const [data, setData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
 
@@ -22,10 +22,7 @@ function Login({handleLogin}) {
   function handleSubmit(e) {
     e.preventDefault();
     handleLogin(data)
-      .then(() => history.push('/'))
-      .catch((err) => {console.log(err)});
   }
-
 
   return(
     <>
@@ -35,7 +32,7 @@ function Login({handleLogin}) {
         <p className="auth__heading">Вход</p>
 
         <form onSubmit={handleSubmit} className="auth__form">
-          <input id="username" className="auth__input" required name="username" type="email"
+          <input id="email" className="auth__input" required name="email" type="email"
             value={data.username} onChange={handleChange} placeholder="Email" />
           <input id="password" className="auth__input" required name="password" type="password"
             value={data.password} onChange={handleChange} placeholder="Пароль" />

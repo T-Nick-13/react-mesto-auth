@@ -9,14 +9,14 @@ function checkResponse(response) {
   }
 }
 
-export const authorize = (username, password) => {
+export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({username, password})
+    body: JSON.stringify({email, password})
   })
   .then(checkResponse);
 };
@@ -34,13 +34,13 @@ export const register = (email, password) => {
 };
 
 
-export const getContent = (token) => {
+export const getContent = (jwt) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorisation': `Bearer ${token}`,
+      'Authorisation': `Bearer ${jwt}`,
     }
   })
   .then(checkResponse);

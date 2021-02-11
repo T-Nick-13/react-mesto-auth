@@ -21,12 +21,7 @@ function Register({onRegister}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //const { email, password } = data;
     onRegister(data)
-      .then(() => {
-        history.push('/sign-in')
-      })
-      .catch((err) => {console.log(err)});
   }
 
 
