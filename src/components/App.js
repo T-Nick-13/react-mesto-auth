@@ -163,7 +163,6 @@ function App() {
 
   function handleLogin(data) {
     const {email, password} = data;
-    debugger
     auth.authorize(email, password)
       .then((res) => {
         if (res) {

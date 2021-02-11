@@ -25,12 +25,10 @@ function Login({handleLogin}) {
   }
 
   return(
-    <>
+    <div className="page-auth">
       <Header headerRoute="/sign-up" headerLink="Регистрация" />
-
       <div className="auth">
         <p className="auth__heading">Вход</p>
-
         <form onSubmit={handleSubmit} className="auth__form">
           <input id="email" className="auth__input" required name="email" type="email"
             value={data.username} onChange={handleChange} placeholder="Email" />
@@ -39,9 +37,7 @@ function Login({handleLogin}) {
           <button type="submit" className="auth__btn">Войти</button>
         </form>
       </div>
-
-    </>
-
+    </div>
   )
 }
 

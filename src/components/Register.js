@@ -26,12 +26,10 @@ function Register({onRegister}) {
 
 
   return(
-    <>
+    <div className="page-auth">
       <Header headerRoute="/sign-in" headerLink="Войти" />
-
       <div className="auth">
         <p className="auth__heading">Регистрация</p>
-
         <form onSubmit={handleSubmit} className="auth__form">
           <input id="username" className="auth__input" required name="email" type="email"
             value={data.username} onChange={handleChange} placeholder="Email" />
@@ -43,8 +41,7 @@ function Register({onRegister}) {
           </p>
         </form>
       </div>
-
-    </>
+    </div>
   )
 }
 
