@@ -11,6 +11,7 @@ import ConfirmationPopup from './ConfirmationPopup.js';
 import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
+import InfoTooltip from './InfoTooltip.js';
 import * as auth from '../utils/auth.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
@@ -19,6 +20,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState('');
@@ -27,6 +29,7 @@ function App() {
 
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [email, setEmail] = React.useState('');
+  const [registered, setRegistered] = React.useState(false);
 
   const history = useHistory();
 
@@ -87,6 +90,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsInfoTooltipPopupOpen(false);
     setSelectedCard({})
   }
 
@@ -177,11 +181,15 @@ function App() {
     auth.register(email, password)
       .then((res) => {
         if (res) {
-          history.push('/')
+          setIsInfoTooltipPopupOpen(true);
+          setRegistered(true);
+          history.push('/sign-in');
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+        setIsInfoTooltipPopupOpen(true);
+        setRegistered(false);
       })
   }
 
@@ -250,19 +258,16 @@ function App() {
             })
           }
         />
-{/*         <Route path="/sign-up">
-          <Register onRegister={handleRegister} />
-        </Route>
-        <Route path="/sign-in">
-          <Login handleLogin={handleLogin} />
-        </Route> */}
-
 
        <Route>
           {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
        </Route>
       </Switch>
 
+      <InfoTooltip
+        isOpen={isInfoTooltipPopupOpen}
+        onClose={closeAllPopups}
+        registered={registered} />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

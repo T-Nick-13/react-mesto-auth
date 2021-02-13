@@ -20,3 +20,4 @@
 @import url(./blocks/profile/__avatar/_overlay/profile__avatar_overlay.css);
 @import url(./blocks/auth/auth.css);
 @import url(./blocks/page-auth/page-auth.css);
+@import url(./blocks/popup/_active/popup_active.css);
