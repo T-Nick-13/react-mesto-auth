@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect, useHistory, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import Main from './Main.js';
 import ImagePopup from './ImagePopup.js';
 import api from '../utils/api.js';

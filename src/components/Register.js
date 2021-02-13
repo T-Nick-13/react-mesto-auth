@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from './Header.js';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Register({onRegister}) {
 
@@ -8,8 +8,6 @@ function Register({onRegister}) {
     email: '',
     password: ''
   });
-
-  const history = useHistory();
 
   function handleChange(e) {
     const {name, value} = e.target;

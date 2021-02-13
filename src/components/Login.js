@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Header from './Header.js';
 
 function Login({handleLogin}) {
@@ -8,8 +7,6 @@ function Login({handleLogin}) {
     email: '',
     password: ''
   })
-
-  const history = useHistory();
 
   function handleChange(e) {
     const {name, value} = e.target;
