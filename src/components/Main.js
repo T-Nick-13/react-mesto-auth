@@ -9,8 +9,8 @@ function Main(props) {
 
   return (
     <>
-      <Header headerRoute="/sign-in" headerLink="Выйти" >
-        <p className="header__user">Test@user.com</p>
+      <Header headerRoute="/sign-in" headerLink="Выйти" handleSignOut={props.handleSignOut} headerClass="header__link_grey">
+        <p className="header__user">{props.email}</p>
       </Header>
       <main>
         <section

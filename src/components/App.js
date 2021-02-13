@@ -26,16 +26,13 @@ function App() {
   const [loadingPlace, setLoadingPlace] = React.useState('Создать');
 
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userData, setUserData] = React.useState({
-    username: '',
-    email: ''
-  });
+  const [email, setEmail] = React.useState('');
 
   const history = useHistory();
 
   React.useEffect(() => {
     tokenCheck();
-  }, [])
+  }, []);
 
   React.useEffect(() => {
     if (loggedIn) {
@@ -167,7 +164,8 @@ function App() {
       .then((res) => {
         if (res) {
           setLoggedIn(true);
-          localStorage.setItem('jwt', res.token);
+          localStorage.setItem('token', res.token);
+          setEmail(email);
           history.push("/");
         }
       })
@@ -188,25 +186,39 @@ function App() {
   }
 
   function tokenCheck() {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      auth.getContent(jwt)
-       .then((res) => {
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+
+      auth.getContent(token)
+        .then((res) => {
           if (res) {
             setLoggedIn(true);
             history.push("/");
+            setEmail(res.data.email);
           }
         })
-        .catch((err) => {console.log(err)});
+        .catch((err) => {
+          console.log(err);
+        });
     }
+
   }
+
+
+  function handleSignOut() {
+    setLoggedIn(false);
+    localStorage.removeItem('token');
+    history.push('/sign-in')
+  }
+
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
 
       <Switch>
-        <Route path="/sign-in">
+
+      <Route path="/sign-in">
           <Login handleLogin={handleLogin} />
         </Route>
         <Route path="/sign-up">
@@ -222,6 +234,8 @@ function App() {
           userAvatar={currentUser.avatar}
           name={currentUser.name}
           about={currentUser.about}
+          handleSignOut={handleSignOut}
+          email={email}
           cards={
             cards.map((card)=>{
               return (
@@ -236,9 +250,15 @@ function App() {
             })
           }
         />
+{/*         <Route path="/sign-up">
+          <Register onRegister={handleRegister} />
+        </Route>
+        <Route path="/sign-in">
+          <Login handleLogin={handleLogin} />
+        </Route> */}
 
 
-       <Route path="/">
+       <Route>
           {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
        </Route>
       </Switch>
@@ -274,4 +294,4 @@ function App() {
   );
 }
 
-export default withRouter(App);
+export default App;

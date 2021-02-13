@@ -24,10 +24,9 @@ function Register({onRegister}) {
     onRegister(data)
   }
 
-
   return(
     <div className="page-auth">
-      <Header headerRoute="/sign-in" headerLink="Войти" />
+      <Header headerRoute="/sign-in" headerLink="Войти" headerClass="header__link" />
       <div className="auth">
         <p className="auth__heading">Регистрация</p>
         <form onSubmit={handleSubmit} className="auth__form">

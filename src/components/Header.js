@@ -7,7 +7,7 @@ function Header(props) {
       <img className="header__logo" src={logoPath} alt="Лого Mesto"/>
         <div className="header__container">
           {props.children}
-          <Link to={props.headerRoute} className="header__link">{props.headerLink}</Link>
+          <Link to={props.headerRoute} className={props.headerClass} onClick={props.handleSignOut}>{props.headerLink}</Link>
         </div>
     </header>
   )

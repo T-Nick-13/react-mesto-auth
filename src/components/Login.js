@@ -21,12 +21,12 @@ function Login({handleLogin}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    handleLogin(data)
+    handleLogin(data);
   }
 
   return(
     <div className="page-auth">
-      <Header headerRoute="/sign-up" headerLink="Регистрация" />
+      <Header headerRoute="/sign-up" headerLink="Регистрация" headerClass="header__link"/>
       <div className="auth">
         <p className="auth__heading">Вход</p>
         <form onSubmit={handleSubmit} className="auth__form">
