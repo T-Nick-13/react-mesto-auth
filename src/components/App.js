@@ -3,7 +3,6 @@ import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import Main from './Main.js';
 import ImagePopup from './ImagePopup.js';
 import api from '../utils/api.js';
-import Card from './Card.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
@@ -13,6 +12,7 @@ import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import InfoTooltip from './InfoTooltip.js';
 import * as auth from '../utils/auth.js';
+import Footer from './Footer.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function App() {
@@ -194,9 +194,8 @@ function App() {
   }
 
   function tokenCheck() {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token');
-
+    const token = localStorage.getItem('token');
+    if (token) {
       auth.getContent(token)
         .then((res) => {
           if (res) {
@@ -225,7 +224,6 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
 
       <Switch>
-
       <Route path="/sign-in">
           <Login handleLogin={handleLogin} />
         </Route>
@@ -244,25 +242,17 @@ function App() {
           about={currentUser.about}
           handleSignOut={handleSignOut}
           email={email}
-          cards={
-            cards.map((card)=>{
-              return (
-                <Card
-                  key={card._id}
-                  card={card}
-                  onCardClick={handleCardClick}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                />
-              )
-            })
-          }
+          cards={cards}
+          handleCardClick={handleCardClick}
+          handleCardLike={handleCardLike}
+          handleCardDelete={handleCardDelete}
         />
-
        <Route>
           {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
        </Route>
       </Switch>
+
+      <Footer />
 
       <InfoTooltip
         isOpen={isInfoTooltipPopupOpen}

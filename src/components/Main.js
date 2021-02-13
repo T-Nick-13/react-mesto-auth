@@ -1,7 +1,7 @@
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header.js';
-import Footer from './Footer.js';
+import Card from './Card.js';
 
 function Main(props) {
 
@@ -26,9 +26,22 @@ function Main(props) {
           </div>
           <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
         </section>
-        <ul className="elements page__elements">{props.cards}</ul>
+        <ul className="elements page__elements">
+          {
+            props.cards.map((card)=>{
+              return (
+                <Card
+                  key={card._id}
+                  card={card}
+                  onCardClick={props.handleCardClick}
+                  onCardLike={props.handleCardLike}
+                  onCardDelete={props.handleCardDelete}
+                />
+              )
+            })
+          }
+        </ul>
       </main>
-      <Footer />
     </>
   )
 }

@@ -3,15 +3,25 @@ import PopupWithForm from './PopupWithForm.js';
 
 function AddPlacePopup({ onAddPlace, isOpen, onClose, btnValue }) {
 
-  const cardTitle = React.useRef();
-  const cardLink = React.useRef();
+  const [cardTitle, setCardTitle] = React.useState('');
+  const [cardLink, setCardLink] = React.useState('');
+
+  function handleChangeName(e) {
+    setCardTitle(e.target.value);
+  }
+
+  function handleChangeLink(e) {
+    setCardLink(e.target.value);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace({
-      name: cardTitle.current.value,
-      link: cardLink.current.value
+      name: cardTitle,
+      link: cardLink
     });
+    setCardTitle('');
+    setCardLink('')
   }
 
 
@@ -30,7 +40,8 @@ function AddPlacePopup({ onAddPlace, isOpen, onClose, btnValue }) {
         minLength="1"
         maxLength="30"
         required
-        ref={cardTitle} />
+        onChange={handleChangeName}
+        value={cardTitle} />
       <span id="input-place-error"
         className="popup__text-error">
       </span>
@@ -39,7 +50,8 @@ function AddPlacePopup({ onAddPlace, isOpen, onClose, btnValue }) {
         placeholder="Ссылка на картинку"
         className="popup__text popup__text_link"
         required
-        ref={cardLink} />
+        onChange={handleChangeLink}
+        value={cardLink} />
       <span
         id="input-link-error"
         className="popup__text-error">
