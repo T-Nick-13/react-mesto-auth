@@ -5,6 +5,7 @@
 @import url(./__name/profile__name.css);
 @import url(./__occupation/profile__occupation.css);
 @import url(./__container/profile__container.css);
+@import url(./__container-name/profile__container-name.css);
 
 .profile {
   width: 69vw;;

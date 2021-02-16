@@ -19,10 +19,13 @@ function Main(props) {
             <div className="profile__avatar_overlay" onClick={props.onEditAvatar} ></div>
             <img className="profile__avatar" src={currentUser.avatar} alt="Изображение аватар" />
             <div className="profile__info">
-              <h1 className="profile__name">{currentUser.name}</h1>
-              <button type="button" className="profile__edit-button" onClick={props.onEditProfile}></button>
+              <div className="profile__container-name">
+                <h1 className="profile__name">{currentUser.name}</h1>
+                <button type="button" className="profile__edit-button" onClick={props.onEditProfile}></button>
+              </div>
               <p className="profile__occupation">{currentUser.about}</p>
             </div>
+
           </div>
           <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
         </section>
